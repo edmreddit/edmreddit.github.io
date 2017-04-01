@@ -3,7 +3,7 @@ flair.sheet_filter = null;
 flair.sheet_filter_change = false;
 flair.typing_timeout = null;
 
-flair.subreddits = ['EDM'];
+flair.subreddits = ['Pokemon', 'Stunfisk', 'TruePokemon'];
 
 flair.updateRegionFilter = function(sheet_name) {
     if (sheet_name == 'ALL') {
@@ -26,20 +26,20 @@ flair.updateFilter = function(text) {
     
     text = text.toLowerCase();
     
-    for (var artist_id in flair.by_id) {
-        if (flair.by_id.hasOwnProperty(artist_id)) {
-            var artist_name = flair.by_id[artist_id].artist_name.toLowerCase();
-            var sheet = flair.by_id[artist_id].sheet;
+    for (var poke_id in flair.by_id) {
+        if (flair.by_id.hasOwnProperty(poke_id)) {
+            var poke_name = flair.by_id[poke_id].poke_name.toLowerCase();
+            var sheet = flair.by_id[poke_id].sheet;
             
-            var el = document.querySelector('.flair-choice[data-id="'+artist_id+'"]');
+            var el = document.querySelector('.flair-choice[data-id="'+poke_id+'"]');
             if (el == null)
                 continue;
             
             if (
-                    // check artist_name
-                    (text.length == 0 || text == artist_name || (artist_name.indexOf(text) !== -1 && isNaN(text)) ||
-                    // check artist_id
-                    text === artist_id || text === flair.by_id[artist_id].orig_id) &&
+                    // check poke_name
+                    (text.length == 0 || text == poke_name || (poke_name.indexOf(text) !== -1 && isNaN(text)) ||
+                    // check poke_id
+                    text === poke_id || text === flair.by_id[poke_id].orig_id) &&
                     // check sheet
                     (flair.sheet_filter === null || flair.sheet_filter === sheet)
                 ) {
@@ -104,14 +104,14 @@ flair.sendChoice = function() {
         }
     }
     
-    window.open('http://www.reddit.com/message/compose/?to=renegaade&subject='+
+    window.open('http://www.reddit.com/message/compose/?to=PokemonFlairBot&subject='+
         flair.current_choice+
         '&message='+flair_text+'%0A'+
         subreddits)
 }
 
-flair.selectChoice = function(artist_id, key) {
-    var el = document.querySelector('.flair-choice[data-id="'+artist_id+'"]');
+flair.selectChoice = function(poke_id, key) {
+    var el = document.querySelector('.flair-choice[data-id="'+poke_id+'"]');
     
     if (!el) {
         return;
@@ -122,8 +122,8 @@ flair.selectChoice = function(artist_id, key) {
     
     flair.current_choice = key;
     
-    document.getElementById('flair-selection-flair').setAttribute('class', 'flair '+ flair.by_id[artist_id].flair_class);
-    document.getElementById('flair-selection-name').innerHTML = '#'+artist_id + ' ' + flair.by_id[artist_id].artist_name;
+    document.getElementById('flair-selection-flair').setAttribute('class', 'flair '+ flair.by_id[poke_id].flair_class);
+    document.getElementById('flair-selection-name').innerHTML = '#'+poke_id + ' ' + flair.by_id[poke_id].poke_name;
 }
 
 flair.loadChoices = function() {
@@ -164,16 +164,16 @@ flair.loadChoices = function() {
     }
     
     var enter = document.getElementById('flair-choices');
-    for (var artist_id in flair.by_id) {
-        if (flair.by_id.hasOwnProperty(artist_id)) {
-            var data = flair.by_id[artist_id];
+    for (var poke_id in flair.by_id) {
+        if (flair.by_id.hasOwnProperty(poke_id)) {
+            var data = flair.by_id[poke_id];
             
             var flair_choice = document.createElement('span');
             flair_choice.setAttribute('class', 'flair flair-choice ' + data.flair_class);
-            flair_choice.setAttribute('data-name', data.artist_name);
-            flair_choice.setAttribute('title', '#'+data.artist_id + ' ' + data.artist_name);
-            flair_choice.setAttribute('data-id', data.artist_id);
-            flair_choice.setAttribute('onclick', 'flair.selectChoice("'+data.artist_id+'","'+data.key+'")');
+            flair_choice.setAttribute('data-name', data.poke_name);
+            flair_choice.setAttribute('title', '#'+data.poke_id + ' ' + data.poke_name);
+            flair_choice.setAttribute('data-id', data.poke_id);
+            flair_choice.setAttribute('onclick', 'flair.selectChoice("'+data.poke_id+'","'+data.key+'")');
             
             enter.appendChild(flair_choice);
         }
