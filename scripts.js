@@ -3,7 +3,7 @@ flair.sheet_filter = null;
 flair.sheet_filter_change = false;
 flair.typing_timeout = null;
 
-flair.subreddits = ['EDM'];
+flair.subreddits = ['Pokemon', 'Stunfisk', 'TruePokemon'];
 
 flair.updateRegionFilter = function(sheet_name) {
     if (sheet_name == 'ALL') {
@@ -104,7 +104,7 @@ flair.sendChoice = function() {
         }
     }
     
-    window.open('http://www.reddit.com/message/compose/?to=renegaade&subject='+
+    window.open('http://www.reddit.com/message/compose/?to=PokemonFlairBot&subject='+
         flair.current_choice+
         '&message='+flair_text+'%0A'+
         subreddits)
